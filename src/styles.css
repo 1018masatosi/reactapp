@@ -20,7 +20,7 @@ button:hover {
 li {
   margin-right: 8px;
 }
-#imput-area {
+.imput-area {
   background-color: aqua;
   width: 400px;
   height: 30px;
@@ -28,7 +28,7 @@ li {
   margin: 8px;
   border-radius: 8px;
 }
-#incomplete-area {
+.incomplete-area {
   background-color: rgb(25, 160, 165);
   width: 400px;
   min-height: 200px;
@@ -36,7 +36,7 @@ li {
   margin: 8px;
   border-radius: 8px;
 }
-#complete-area {
+.complete-area {
   background-color: rgb(132, 132, 235);
   width: 400px;
   min-height: 200px;
