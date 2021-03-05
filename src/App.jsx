@@ -1,38 +1,55 @@
 import React, { useState } from "react";
 import "./styles.css";
+import { InputTodo } from "./component/InputTodo.jsx";
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
-  const [inCompleteTodos, setinCompleteTodos] = useState(["aaaa", "iiii"]);
-  const [completeTodos, setCompleteTodos] = useState(["iiiii"]);
+  const [inCompleteTodos, setInCompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
   const onChangeTodoText = (event) => {
     setTodoText(event.target.value);
   };
   const onClickAdd = () => {
     if (todoText === "") return;
     const newInCompleteTodos = [...inCompleteTodos, todoText];
-    setinCompleteTodos(newInCompleteTodos);
+    setInCompleteTodos(newInCompleteTodos);
     setTodoText("");
+  };
+  const onclickDelete = (index) => {
+    const newInCompleteTodos = [...inCompleteTodos];
+    newInCompleteTodos.splice(index, 1);
+    setInCompleteTodos(newInCompleteTodos);
+  };
+  const onClickComplete = (index) => {
+    const newInCompleteTodos = [...inCompleteTodos];
+    newInCompleteTodos.splice(index, 1);
+    const newCompleteTodos = [...completeTodos, inCompleteTodos[index]];
+    setInCompleteTodos(newInCompleteTodos);
+    setCompleteTodos(newCompleteTodos);
+  };
+  const onClickBack = (index) => {
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+    const newInCompleteTodos = [...inCompleteTodos, completeTodos[index]];
+    setCompleteTodos(newCompleteTodos);
+    setInCompleteTodos(newInCompleteTodos);
   };
   return (
     <>
-      <div className="imput-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+      />
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          {inCompleteTodos.map((todo) => {
+          {inCompleteTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>完了</button>
-                <button>削除</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
+                <button onClick={() => onclickDelete(index)}>削除</button>
               </div>
             );
           })}
@@ -41,11 +58,11 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </div>
             );
           })}
